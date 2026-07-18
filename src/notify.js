@@ -27,7 +27,7 @@ export async function sendDigest({ deals, coverage, routesByKey, usage, today, i
   <div style="font-size:15px"><b>${label}</b>&nbsp;&nbsp;<b style="font-size:18px">${yen(o.price)}</b> <span style="color:#777;font-size:12px">往復</span>${drop != null ? ` <b style="color:#c0392b">▼${drop}%</b>` : ''}</div>
   <div style="margin-top:4px">${fmtDate(d.depDate)}発 → ${fmtDate(o.retDate)}帰 (${nights}泊) ・ ${o.airline} ・ ${o.transfers === 0 ? '直行' : `乗継${o.transfers}回`}</div>
   <div style="margin-top:4px;color:#555;font-size:13px">${d.reasons.map((r) => '・' + r.text).join('<br>')}</div>
-  <div style="margin-top:6px">${o.link ? `<a href="${o.link}">検索結果を開く</a> ` : ''}<span style="color:#999;font-size:12px">${d.verified ? '✓ 実売価格を確認済み' : '※ 検索キャッシュの価格 (実際の運賃は要確認)'}</span></div>
+  <div style="margin-top:6px">${o.link ? `<a href="${o.link}">検索結果を開く</a> ` : ''}<span style="color:#999;font-size:12px">${d.verified ? '✓ Google Flightsで実売価格を確認済み' : '※ 検索キャッシュの価格 (実際の運賃は要確認)'}</span></div>
 </div>`);
     }
   } else {
@@ -49,7 +49,7 @@ export async function sendDigest({ deals, coverage, routesByKey, usage, today, i
   }
   p.push('</table>');
   p.push(
-    `<p style="font-size:12px;color:#999">Amadeus API 使用: 本日 ${usage.todayCalls}回 / 今月 ${usage.monthCalls}回 (上限 ${cfg.amadeus.monthlyCap}) ・ 価格履歴 ${historyAge}日分</p>`,
+    `<p style="font-size:12px;color:#999">SerpAPI (Google Flights) 使用: 本日 ${usage.todayCalls}回 / 今月 ${usage.monthCalls}回 (上限 ${cfg.serpapi.monthlyCap}) ・ 価格履歴 ${historyAge}日分</p>`,
   );
   p.push('</div>');
 

@@ -31,6 +31,7 @@ for (const r of routesFile.routes) {
 
 export const cfg = {
   origin: routesFile.origin,
+  originCity: routesFile.originCity ?? null, // 国内線キャッシュ補完用の都市コード (例: TYO)
   months: routesFile.months ?? 6,
   routes: routesFile.routes,
   excludedAirlines: new Set(routesFile.excludedAirlines ?? []),
@@ -38,14 +39,11 @@ export const cfg = {
   tpToken: process.env.TP_TOKEN,
   tpCurrency: str(process.env.TP_CURRENCY, 'jpy').toLowerCase(),
 
-  amadeus: {
-    id: process.env.AMADEUS_CLIENT_ID,
-    secret: process.env.AMADEUS_CLIENT_SECRET,
-    env: str(process.env.AMADEUS_ENV, 'production'), // 動作確認は 'test'
-    dailyCap: num(process.env.AMADEUS_DAILY_CAP, 60),
-    monthlyCap: num(process.env.AMADEUS_MONTHLY_CAP, 1800),
-    verifyReserve: num(process.env.AMADEUS_VERIFY_RESERVE, 15), // 実売検証用に取り置く1日あたりの回数
-    priceAnalysis: bool(process.env.AMADEUS_PRICE_ANALYSIS, true),
+  serpapi: {
+    key: process.env.SERPAPI_KEY,
+    dailyCap: num(process.env.SERPAPI_DAILY_CAP, 5),
+    monthlyCap: num(process.env.SERPAPI_MONTHLY_CAP, 90), // 無料枠 (月100回) の少し手前で自動停止
+    verifyReserve: num(process.env.SERPAPI_VERIFY_RESERVE, 3), // 実売検証用に取り置く1日あたりの回数
   },
 
   mail: {
@@ -79,7 +77,7 @@ export function assertConfig() {
     console.error('.env.example を参考に設定してください (DRY_RUN=true ならメール設定は不要)。');
     process.exit(1);
   }
-  if (!cfg.amadeus.id || !cfg.amadeus.secret) {
-    console.warn('[Amadeus] 認証情報が未設定のため、キャッシュの穴埋めと実売価格の検証はスキップします。');
+  if (!cfg.serpapi.key) {
+    console.warn('[SerpAPI] SERPAPI_KEY が未設定のため、実売検証・穴埋め・初期判定はスキップします。');
   }
 }

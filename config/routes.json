@@ -1,21 +1,102 @@
 {
   "origin": "HND",
+  "originCity": "TYO",
   "months": 6,
   "excludedAirlines": [
-    "MM", "GK", "IJ", "JQ", "3K", "TR", "TW", "LJ", "7C", "BX", "RS", "ZE",
-    "9C", "AK", "D7", "FD", "XJ", "QZ", "Z2", "5J", "DG", "VJ", "VZ", "SL"
+    "MM",
+    "GK",
+    "IJ",
+    "JQ",
+    "3K",
+    "TR",
+    "TW",
+    "LJ",
+    "7C",
+    "BX",
+    "RS",
+    "ZE",
+    "9C",
+    "AK",
+    "D7",
+    "FD",
+    "XJ",
+    "QZ",
+    "Z2",
+    "5J",
+    "DG",
+    "VJ",
+    "VZ",
+    "SL"
   ],
   "routes": [
-    { "dest": "ROM", "label": "ローマ (イタリア)", "type": "intl" },
-    { "dest": "MIL", "label": "ミラノ (イタリア)", "type": "intl" },
-    { "dest": "MAD", "label": "マドリード (スペイン)", "type": "intl" },
-    { "dest": "BCN", "label": "バルセロナ (スペイン)", "type": "intl" },
-    { "dest": "PAR", "label": "パリ (フランス)", "type": "intl" },
-    { "dest": "ZRH", "label": "チューリッヒ (スイス)", "type": "intl" },
-    { "dest": "SYD", "label": "シドニー (オーストラリア)", "type": "intl", "stay": { "min": 4, "max": 21 } },
-    { "dest": "MEL", "label": "メルボルン (オーストラリア)", "type": "intl", "stay": { "min": 4, "max": 21 } },
-    { "dest": "OKA", "label": "沖縄 (那覇)", "type": "dom", "direct": true },
-    { "dest": "CTS", "label": "札幌 (新千歳)", "type": "dom", "direct": true },
-    { "dest": "NGS", "label": "長崎", "type": "dom", "direct": true }
+    {
+      "dest": "ROM",
+      "gfDest": "FCO",
+      "label": "ローマ (イタリア)",
+      "type": "intl"
+    },
+    {
+      "dest": "MIL",
+      "gfDest": "MXP",
+      "label": "ミラノ (イタリア)",
+      "type": "intl"
+    },
+    {
+      "dest": "MAD",
+      "label": "マドリード (スペイン)",
+      "type": "intl"
+    },
+    {
+      "dest": "BCN",
+      "label": "バルセロナ (スペイン)",
+      "type": "intl"
+    },
+    {
+      "dest": "PAR",
+      "gfDest": "CDG",
+      "label": "パリ (フランス)",
+      "type": "intl"
+    },
+    {
+      "dest": "ZRH",
+      "label": "チューリッヒ (スイス)",
+      "type": "intl"
+    },
+    {
+      "dest": "SYD",
+      "label": "シドニー (オーストラリア)",
+      "type": "intl",
+      "stay": {
+        "min": 4,
+        "max": 21
+      }
+    },
+    {
+      "dest": "MEL",
+      "label": "メルボルン (オーストラリア)",
+      "type": "intl",
+      "stay": {
+        "min": 4,
+        "max": 21
+      }
+    },
+    {
+      "dest": "OKA",
+      "label": "沖縄 (那覇)",
+      "type": "dom",
+      "direct": true
+    },
+    {
+      "dest": "CTS",
+      "label": "札幌 (新千歳)",
+      "type": "dom",
+      "direct": true
+    },
+    {
+      "dest": "NGS",
+      "label": "長崎",
+      "type": "dom",
+      "direct": true
+    }
   ]
 }

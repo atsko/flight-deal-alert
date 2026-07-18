@@ -5,9 +5,11 @@ const BASE = 'https://api.travelpayouts.com/aviasales/v3/prices_for_dates';
 let currencyWarned = false;
 
 // 1路線×1ヶ月分の往復キャッシュ価格を取得し、出発日ごとの最安 (LCC除外後) に集約する
-export async function scanRouteMonth(route, month, today) {
+// origin に都市コード (TYO) を渡す場合は strictAirport=true とし、
+// レスポンスの origin_airport が羽田のチケットだけを採用する (国内線のキャッシュ補完用)
+export async function scanRouteMonth(route, month, today, origin = cfg.origin, strictAirport = false) {
   const params = new URLSearchParams({
-    origin: cfg.origin,
+    origin,
     destination: route.dest,
     departure_at: month, // YYYY-MM 指定でその月の全日付が対象
     one_way: 'false',    // 往復運賃
@@ -45,6 +47,7 @@ export async function scanRouteMonth(route, month, today) {
     const dep = String(t.departure_at ?? '').slice(0, 10);
     const ret = String(t.return_at ?? '').slice(0, 10);
     if (!dep || !ret || dep <= today) continue;
+    if (strictAirport && t.origin_airport !== cfg.origin) continue; // 羽田発以外を除外
 
     const stay = diffDays(dep, ret);
     if (stay < route.stay.min || stay > route.stay.max) continue; // 滞在日数フィルタ
@@ -77,6 +80,17 @@ export async function scanAll(months, today) {
     for (const month of months) {
       Object.assign(result[key], await scanRouteMonth(route, month, today));
       await sleep(350); // レート制限への配慮
+    }
+    // 国内線はキャッシュが薄いことがあるため、都市コード (例: TYO) でも検索して
+    // 羽田発のチケットだけを補完する (Aviasalesのキャッシュは都市単位の方が厚い)
+    if (cfg.originCity && route.type === 'dom') {
+      for (const month of months) {
+        const fb = await scanRouteMonth(route, month, today, cfg.originCity, true);
+        for (const [dep, obs] of Object.entries(fb)) {
+          if (!result[key][dep] || obs.price < result[key][dep].price) result[key][dep] = obs;
+        }
+        await sleep(350);
+      }
     }
     console.log(`[TP] ${key}: ${Object.keys(result[key]).length}日分の価格を取得`);
   }
