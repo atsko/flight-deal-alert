@@ -1,0 +1,17 @@
+{
+  "name": "flight-deal-alert",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "羽田発の国内外航空券が相場より安くなったらGmailで通知する監視ツール",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "scan": "node src/index.js",
+    "selftest": "node test/selftest.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.13"
+  }
+}
